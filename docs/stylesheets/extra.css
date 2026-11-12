@@ -1,0 +1,83 @@
+/* Neutral palette: the theme tints its greys with a blue hue, these replace them with plain greys */
+:root,
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: #1a1a1a;
+  --md-primary-fg-color--light: #4d4d4d;
+  --md-primary-fg-color--dark: #000000;
+  --md-primary-bg-color: #ffffff;
+  --md-accent-fg-color: #000000;
+  --md-accent-fg-color--transparent: #0000000f;
+  --md-default-fg-color: #1a1a1a;
+  --md-default-fg-color--light: #666666;
+  --md-default-fg-color--lighter: #a3a3a3;
+  --md-default-fg-color--lightest: #ececec;
+  --md-code-fg-color: #2b2b2b;
+  --md-code-bg-color: #f5f5f5;
+  --md-code-hl-color: #8a8a8a;
+  --md-code-hl-color--light: #0000000d;
+  --md-typeset-a-color: #1a1a1a;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #e6e6e6;
+  --md-primary-fg-color--light: #bdbdbd;
+  --md-primary-fg-color--dark: #ffffff;
+  --md-primary-bg-color: #111111;
+  --md-accent-fg-color: #ffffff;
+  --md-accent-fg-color--transparent: #ffffff14;
+  --md-default-fg-color: #e0e0e0;
+  --md-default-fg-color--light: #a0a0a0;
+  --md-default-fg-color--lighter: #6b6b6b;
+  --md-default-fg-color--lightest: #262626;
+  --md-default-bg-color: #111111;
+  --md-default-bg-color--light: #111111b3;
+  --md-default-bg-color--lighter: #11111142;
+  --md-default-bg-color--lightest: #11111112;
+  --md-code-fg-color: #d4d4d4;
+  --md-code-bg-color: #1c1c1c;
+  --md-code-bg-color--light: #1c1c1ce6;
+  --md-code-bg-color--lighter: #1c1c1c8a;
+  --md-code-hl-color: #8a8a8a;
+  --md-code-hl-color--light: #ffffff0f;
+  --md-typeset-a-color: #e6e6e6;
+  --md-typeset-table-color: #ffffff1f;
+  --md-typeset-table-color--light: #ffffff09;
+  --md-typeset-kbd-color: #ffffff1f;
+  --md-typeset-kbd-accent-color: #ffffff33;
+  --md-typeset-kbd-border-color: #242424;
+  --md-footer-bg-color: #1a1a1a;
+  --md-footer-bg-color--dark: #141414;
+}
+
+/* Links stay black or white, so an underline marks them */
+.md-typeset a {
+  text-decoration: underline;
+  text-decoration-color: var(--md-default-fg-color--lighter);
+  text-underline-offset: 0.15em;
+}
+
+.md-typeset a:hover,
+.md-typeset a:focus {
+  text-decoration-color: currentColor;
+}
+
+/* Indent the pages under each section of the side panel, with a thin guide line */
+[dir="ltr"] .md-nav--primary .md-nav__item--section > .md-nav > .md-nav__list {
+  margin-left: 0.4rem;
+  padding-left: 0.6rem;
+  border-left: 0.05rem solid var(--md-default-fg-color--lightest);
+}
+
+[dir="rtl"] .md-nav--primary .md-nav__item--section > .md-nav > .md-nav__list {
+  margin-right: 0.4rem;
+  padding-right: 0.6rem;
+  border-right: 0.05rem solid var(--md-default-fg-color--lightest);
+}
+
+/* Plainer admonitions: a thin left rule instead of a filled box */
+.md-typeset .admonition,
+.md-typeset details {
+  border-width: 0 0 0 0.1rem;
+  border-radius: 0;
+  box-shadow: none;
+}
