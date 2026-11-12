@@ -1,0 +1,52 @@
+# Hardware
+
+## Components
+
+Chosen so far:
+
+| Part | Choice | Why |
+|---|---|---|
+| Servos | 18 × Feetech STS3215, 12 V version (C018 or C047) | 30 kg·cm (2.94 N·m) stall torque; report position, speed, load, voltage and temperature over a single bus |
+| Servo adapter | Waveshare Bus Servo Driver Board, jumpers on **B** (USB) | Connects the Pi to the 1 Mbps half-duplex servo bus over USB |
+| Computer | Raspberry Pi 5 | Runs the policy, the servo bus and perception on its CPU; there is no GPU |
+
+Still open:
+
+| Part | Requirement | Depends on |
+|---|---|---|
+| Battery | Powers 18 servos at 12 V plus the Pi at 5 V; the robot model assumes a 3S LiPo | Power budget |
+| Depth camera | Metric depth from about 20 cm, global shutter, ideally a built-in IMU | Power budget, ROS 2 decisions |
+| IMU | Mounted rigidly near the center of mass, at 200 Hz or more | Camera choice |
+
+!!! note "Next: the power budget"
+    How much current the servos draw while walking, plus the Pi and the camera, sets the battery capacity, the regulators and how long the robot can walk.
+
+## Folders
+
+| Folder | Contents |
+|---|---|
+| `hardware/printed/` | Parts you print: STEP files to edit, STL files to slice |
+| `hardware/components/` | Parts you buy: their models, for the assembly and the robot model |
+| `hardware/model/` | The robot model used in simulation and training: MJCF now, URDF later |
+
+The model lives with the parts because it changes with them: when a printed part changes, update the model in the same commit.
+
+## Robot model
+
+Until the CAD exists, `hardware/model/h3215.xml` is a provisional model built from primitive shapes:
+
+![The provisional robot model in its default pose](../media/images/model_provisional.png){ width="560" }
+
+| Property | Value |
+|---|---|
+| Leg segments | Coxa 68 mm, femur 77 mm, tibia 122 mm (H-0996's proportions) |
+| Mass | 2.14 kg: 1.03 kg base (six coxa servos, Pi, servo board, battery, camera) and 185 g per leg |
+| Default pose | Femur raised 0.35 rad, tibia −0.25 rad: base at 11.7 cm, feet 22–25 cm from the center |
+
+Frames and numbering:
+
+- **Base frame:** x forward, y left, z up.
+- **Legs:** numbered like H-0996, clockwise from above: 1 front-right, 2 middle-right, 3 rear-right, 4 rear-left, 5 middle-left, 6 front-left.
+- **Joints:** in each leg frame x points out of the body. A positive femur angle lifts the femur, a positive tibia angle swings the foot outward.
+
+The names of bodies, joints, geoms, sites and sensors are what the training tasks rely on: keep them when the model is replaced by the CAD export.

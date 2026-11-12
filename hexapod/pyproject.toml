@@ -1,0 +1,13 @@
+# Makes the hexapod package (src/hexapod) importable everywhere in the conda env (editable
+# install, done by scripts/setup_env.sh). Dependencies are managed by conda: see environment.yml.
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hexapod"
+version = "0.1.0"
+requires-python = ">=3.11"
+
+[tool.setuptools.packages.find]
+where = ["src"]

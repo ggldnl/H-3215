@@ -1,0 +1,4 @@
+# Store text files with LF line endings. Shell scripts keep LF even in a Windows checkout:
+# bash fails on CRLF, for example after copying the repository from Windows to the Pi.
+* text=auto
+*.sh text eol=lf

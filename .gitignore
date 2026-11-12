@@ -1,0 +1,10 @@
+__pycache__/
+*.egg-info/
+
+# Training: uv environment, runs and their logs
+.venv/
+hexapod/train/logs/
+hexapod/train/wandb/
+
+# Documentation: the built site
+site/

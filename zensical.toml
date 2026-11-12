@@ -1,0 +1,119 @@
+# Documentation site, built with Zensical (https://zensical.org) from the pages in docs/.
+#   uvx zensical@0.1.1 serve    preview at http://localhost:8000, rebuilds on every save
+#   uvx zensical@0.1.1 build    write the static site to site/
+# .github/workflows/docs.yml publishes it to GitHub Pages on every push to main.
+
+[project]
+site_name = "H-3215"
+site_description = "An open-source hexapod with 18 STS3215 smart servos and an RL locomotion policy"
+site_author = "Daniel Gigliotti"
+site_url = "https://ggldnl.github.io/H-3215/"
+copyright = "Copyright &copy; 2026 Daniel Gigliotti"
+
+repo_url = "https://github.com/ggldnl/H-3215"
+repo_name = "ggldnl/H-3215"
+edit_uri = "edit/main/docs/"
+
+nav = [
+  { "Home" = "index.md" },
+  { "Hardware" = [
+    "hardware/index.md",
+  ] },
+  { "Software" = [
+    "software/index.md",
+    { "Raspberry Pi setup" = "software/raspberry-pi.md" },
+    { "Servos" = "software/servos.md" },
+    { "Training in simulation" = "software/training.md" },
+    { "Tests and benchmarks" = "software/tests.md" },
+  ] },
+]
+
+# Math with KaTeX: $inline$ and $$display$$
+extra_javascript = [
+  "javascripts/katex.js",
+  "https://unpkg.com/katex@0.16.11/dist/katex.min.js",
+  "https://unpkg.com/katex@0.16.11/dist/contrib/auto-render.min.js",
+]
+extra_css = ["https://unpkg.com/katex@0.16.11/dist/katex.min.css"]
+
+[project.theme]
+language = "en"
+features = [
+  "content.action.edit",
+  "content.action.view",
+  "content.code.annotate",
+  "content.code.copy",
+  "content.code.select",
+  "content.footnote.tooltips",
+  "content.tabs.link",
+  "content.tooltips",
+  "navigation.footer",
+  "navigation.indexes",
+  "navigation.instant",
+  "navigation.instant.prefetch",
+  "navigation.path",
+  "navigation.sections",
+  "navigation.top",
+  "navigation.tracking",
+  "search.highlight",
+  "toc.follow",
+]
+
+[project.theme.icon]
+logo = "lucide/hexagon"
+
+[project.theme.font]
+text = "Inter"
+code = "JetBrains Mono"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme)"
+toggle.icon = "lucide/sun-moon"
+toggle.name = "Switch to light mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to system preference"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/github"
+link = "https://github.com/ggldnl/H-3215"
+
+[project.markdown_extensions]
+abbr = {}
+admonition = {}
+attr_list = {}
+def_list = {}
+footnotes = {}
+md_in_html = {}
+tables = {}
+toc.permalink = true
+pymdownx.arithmatex.generic = true
+pymdownx.betterem = {}
+pymdownx.caret = {}
+pymdownx.details = {}
+pymdownx.emoji.emoji_generator = "zensical.extensions.emoji.to_svg"
+pymdownx.emoji.emoji_index = "zensical.extensions.emoji.twemoji"
+pymdownx.highlight.anchor_linenums = true
+pymdownx.highlight.line_spans = "__span"
+pymdownx.highlight.pygments_lang_class = true
+pymdownx.inlinehilite = {}
+pymdownx.keys = {}
+pymdownx.magiclink = {}
+pymdownx.mark = {}
+pymdownx.smartsymbols = {}
+pymdownx.superfences.custom_fences = [
+  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
+]
+pymdownx.tabbed.alternate_style = true
+pymdownx.tabbed.combine_header_slug = true
+pymdownx.tasklist.custom_checkbox = true
+pymdownx.tilde = {}

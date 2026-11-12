@@ -1,0 +1,29 @@
+[project]
+name = "h3215-train"
+version = "0.1.0"
+description = "H-3215 in mjlab: the robot model and its velocity-tracking tasks"
+requires-python = ">=3.10,<3.14"
+dependencies = [
+  "mjlab>=1.6.0",
+]
+
+# Required: without a build backend the package is not installed, so mjlab never sees the entry point
+[build-system]
+requires = ["uv_build>=0.10.0,<0.12.0"]
+build-backend = "uv_build"
+
+# mjlab's train and play commands import every package registered here and run its task registrations
+[project.entry-points."mjlab.tasks"]
+h3215_train = "h3215_train"
+
+[dependency-groups]
+dev = [
+  "ruff>=0.14.14",
+]
+
+[tool.ruff]
+indent-width = 2
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B"]
