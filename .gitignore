@@ -1,5 +1,8 @@
+# Python
 __pycache__/
 *.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
 
 # Training: uv environment, runs and their logs
 .venv/
@@ -8,3 +11,11 @@ hexapod/train/wandb/
 
 # Documentation: the built site
 site/
+.cache/
+
+# Editors and operating systems
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db

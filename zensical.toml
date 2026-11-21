@@ -50,8 +50,6 @@ features = [
   "navigation.instant.prefetch",
   "navigation.sections",
   "navigation.tracking",
-  "search.highlight",
-  "toc.follow",
 ]
 
 [project.theme.font]
@@ -78,6 +76,10 @@ toggle.name = "Switch to system preference"
 [[project.extra.social]]
 icon = "fontawesome/brands/github"
 link = "https://github.com/ggldnl/H-3215"
+
+# No search: the site is small enough to browse from the side panel
+[project.plugins.search]
+enabled = false
 
 [project.markdown_extensions]
 abbr = {}

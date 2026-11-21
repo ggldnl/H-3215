@@ -269,3 +269,13 @@ body {
 .md-social__link {
   color: var(--h-muted);
 }
+
+/* No table of contents on the right: the text takes the room; two classes outrank the theme's :not([hidden]) rule */
+.md-sidebar.md-sidebar--secondary {
+  display: none;
+}
+
+/* Keep lines at a readable length now that the right panel is gone */
+.md-content__inner {
+  max-width: 36rem;
+}
