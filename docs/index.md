@@ -24,7 +24,8 @@ The servos are the biggest change between the two robots. H-0996's MG996R can on
 | Robot model | Provisional: primitive shapes until the CAD exists |
 | Flat-ground policy | Trains in about 10 minutes in simulation |
 | Mechanical design | Not started |
-| Battery, camera, IMU | To be chosen, starting from the power budget |
+| Battery and camera | Chosen: 3S2P Li-ion pack, RealSense D435i |
+| IMU | To be chosen |
 | ROS 2 integration | Being discussed |
 
 ## Where to start

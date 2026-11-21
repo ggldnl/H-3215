@@ -3,7 +3,7 @@
 
   Leg proportions come from H-0996 (coxa 68 mm, femur 77 mm, tibia 122 mm, legs every 45 deg),
   shapes are primitives and masses are estimates: 55 g per STS3215 plus brackets, and a 1.03 kg
-  base holding the six coxa servos, the Pi 5, the servo board, a 3S battery and the camera.
+  base holding the six coxa servos, the Pi 5, the servo board, the battery and the camera.
   Total: 2.14 kg.
 
   Frame: x forward, y left, z up. Legs are numbered like H-0996, clockwise from above:

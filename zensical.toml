@@ -18,6 +18,7 @@ nav = [
   { "Home" = "index.md" },
   { "Hardware" = [
     "hardware/index.md",
+    { "Power budget and battery" = "hardware/power.md" },
   ] },
   { "Software" = [
     "software/index.md",

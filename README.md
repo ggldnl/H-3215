@@ -22,6 +22,7 @@ H-0996 is split into eight repositories linked by submodules. That kept it modul
 Setup guides, the parts list and design notes live in [`docs/`](docs/index.md):
 
 - [Hardware](docs/hardware/index.md): parts chosen so far, the open ones, the robot model
+- [Power budget and battery](docs/hardware/power.md): consumption, battery sizing, overcurrent protection
 - [Raspberry Pi setup](docs/software/raspberry-pi.md): system configuration and Python environment
 - [Servos](docs/software/servos.md): IDs, reply delay, bus timing
 - [Training in simulation](docs/software/training.md): mjlab tasks, servo model, first results

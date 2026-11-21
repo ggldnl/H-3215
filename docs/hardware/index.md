@@ -6,20 +6,20 @@ Chosen so far:
 
 | Part | Choice | Why |
 |---|---|---|
-| Servos | 18 × Feetech STS3215, 12 V version (C018 or C047) | 30 kg·cm (2.94 N·m) stall torque; report position, speed, load, voltage and temperature over a single bus |
-| Servo adapter | Waveshare Bus Servo Driver Board, jumpers on **B** (USB) | Connects the Pi to the 1 Mbps half-duplex servo bus over USB |
+| Servos | 19 × Feetech STS3215, 12 V version (C018 or C047): 18 in the legs, 1 in the neck | 30 kg·cm (2.94 N·m) stall torque; report position, speed, load, voltage and temperature over a single bus |
+| Servo adapter | 1 or 2 × Waveshare Bus Servo Driver Board, jumpers on **B** (USB) | Connects the Pi to the 1 Mbps half-duplex servo bus over USB |
 | Computer | Raspberry Pi 5 | Runs the policy, the servo bus and perception on its CPU; there is no GPU |
+| Depth camera | Intel RealSense D435i | Metric depth from about 20 cm, global shutter, built-in IMU; powered over USB 3 |
+| Battery | 3S2P Li-ion pack, 18650 cells (Ampace JP30 or equivalent) in a single layer, with a 3S BMS; servos on the battery, a 5 V UBEC for the Pi | Flat (about 20 mm), 65 Wh, about 40 minutes of walking by a conservative estimate; see [Power budget and battery](power.md) |
 
 Still open:
 
 | Part | Requirement | Depends on |
 |---|---|---|
-| Battery | Powers 18 servos at 12 V plus the Pi at 5 V; the robot model assumes a 3S LiPo | Power budget |
-| Depth camera | Metric depth from about 20 cm, global shutter, ideally a built-in IMU | Power budget, ROS 2 decisions |
-| IMU | Mounted rigidly near the center of mass, at 200 Hz or more | Camera choice |
+| IMU | Mounted rigidly near the center of mass, at 200 Hz or more | Whether the D435i's IMU, mounted with the camera, is close enough to the center of mass |
 
-!!! note "Next: the power budget"
-    How much current the servos draw while walking, plus the Pi and the camera, sets the battery capacity, the regulators and how long the robot can walk.
+!!! note "Power"
+    How much the servos, the Pi and the camera draw, how the battery is sized and built, and how the servos are protected against overcurrent: [Power budget and battery](power.md).
 
 ## Folders
 
