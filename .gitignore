@@ -6,8 +6,8 @@ __pycache__/
 
 # Training: uv environment, runs and their logs
 .venv/
-hexapod/train/logs/
-hexapod/train/wandb/
+h3215/software/training/logs/
+h3215/software/training/wandb/
 
 # Documentation: the built site
 site/
@@ -19,3 +19,8 @@ site/
 *.swp
 .DS_Store
 Thumbs.db
+
+# colcon output, if someone builds in the repository instead of a workspace
+/build/
+/install/
+/log/

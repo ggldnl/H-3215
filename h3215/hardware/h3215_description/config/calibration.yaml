@@ -1,0 +1,6 @@
+# Servo calibration, by joint: written by hand, never generated.
+#   angle = direction * (steps - 2048) * 2 pi / 4096 + offset
+# offset in rad (default 0), direction 1 or -1 (default 1). Joints left out use the defaults.
+# Example:
+#   leg_1_joint_2: {offset: 0.012, direction: -1}
+joints: {}

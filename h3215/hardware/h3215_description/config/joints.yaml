@@ -1,0 +1,66 @@
+# Generated from h3215/hardware/h3215_description/mjcf/h3215.xml by `python -m h3215_train.description`: regenerate, don't edit
+# 6 legs, base 0.1170 m above the ground in the home pose
+
+leg_position_controller:
+  ros__parameters:
+    joints:
+      - leg_1_joint_1
+      - leg_1_joint_2
+      - leg_1_joint_3
+      - leg_2_joint_1
+      - leg_2_joint_2
+      - leg_2_joint_3
+      - leg_3_joint_1
+      - leg_3_joint_2
+      - leg_3_joint_3
+      - leg_4_joint_1
+      - leg_4_joint_2
+      - leg_4_joint_3
+      - leg_5_joint_1
+      - leg_5_joint_2
+      - leg_5_joint_3
+      - leg_6_joint_1
+      - leg_6_joint_2
+      - leg_6_joint_3
+
+# The home pose, from the model's keyframe, in the same joint order
+posture:
+  ros__parameters:
+    joints:
+      - leg_1_joint_1
+      - leg_1_joint_2
+      - leg_1_joint_3
+      - leg_2_joint_1
+      - leg_2_joint_2
+      - leg_2_joint_3
+      - leg_3_joint_1
+      - leg_3_joint_2
+      - leg_3_joint_3
+      - leg_4_joint_1
+      - leg_4_joint_2
+      - leg_4_joint_3
+      - leg_5_joint_1
+      - leg_5_joint_2
+      - leg_5_joint_3
+      - leg_6_joint_1
+      - leg_6_joint_2
+      - leg_6_joint_3
+    home:
+      - 0.0
+      - 0.35
+      - -0.25
+      - 0.0
+      - 0.35
+      - -0.25
+      - 0.0
+      - 0.35
+      - -0.25
+      - 0.0
+      - 0.35
+      - -0.25
+      - 0.0
+      - 0.35
+      - -0.25
+      - 0.0
+      - 0.35
+      - -0.25

@@ -5,7 +5,7 @@ Measures (1) one policy inference and (2) whether a fixed-rate Python loop keeps
 its timing while the other cores are busy, with and without OS tuning.
 
     python tests/bench_loop.py                 # 50 Hz, 30 s per scenario
-    python tests/bench_loop.py --io-ms 3.4     # bus time measured by tests/servo_check.py
+    python tests/bench_loop.py --io-ms 3.4     # bus time measured by servo_tool check
     python tests/bench_loop.py --rate 100 --load-workers 4
 
 The tuned scenario uses the core and the real-time permission set up by scripts/setup_pi.sh.

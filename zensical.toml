@@ -1,9 +1,12 @@
-# Documentation site, built with Zensical (https://zensical.org) from the pages in docs/.
-#   uvx zensical@0.1.1 serve    preview at http://localhost:8000, rebuilds on every save
+# Documentation site, built with Zensical (https://zensical.org) from the pages in docs/pages/.
+# The images, videos, scripts and styles in docs/assets/ are published through the theme's custom_dir.
+#   uvx zensical@0.1.1 serve    preview at http://localhost:8215 (dev_addr below), rebuilds on every save
 #   uvx zensical@0.1.1 build    write the static site to site/
 # .github/workflows/docs.yml publishes it to GitHub Pages on every push to main.
 
 [project]
+docs_dir = "docs/pages"
+dev_addr = "localhost:8215"
 site_name = "H-3215"
 site_description = "An open-source hexapod with 18 STS3215 smart servos and an RL locomotion policy"
 site_author = "Daniel Gigliotti"
@@ -14,11 +17,15 @@ nav = [
   { "Home" = "index.md" },
   { "Hardware" = [
     "hardware/index.md",
+    { "Kinematic model" = "hardware/kinematics.md" },
+    { "Dynamic model" = "hardware/dynamics.md" },
+    { "Contact estimation" = "hardware/contact-estimation.md" },
     { "Power budget and battery" = "hardware/power.md" },
   ] },
   { "Software" = [
     "software/index.md",
     { "Raspberry Pi setup" = "software/raspberry-pi.md" },
+    { "ROS 2" = "software/ros.md" },
     { "Servos" = "software/servos.md" },
     { "Training in simulation" = "software/training.md" },
     { "Tests and benchmarks" = "software/tests.md" },
@@ -37,6 +44,8 @@ extra_css = [
 ]
 
 [project.theme]
+# Copies docs/assets/ into the site's root: media/, javascripts/ and stylesheets/ keep their URLs
+custom_dir = "docs/assets"
 language = "en"
 features = [
   "content.code.annotate",

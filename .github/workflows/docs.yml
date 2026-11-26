@@ -1,4 +1,4 @@
-# Builds the documentation (docs/, zensical.toml) and publishes it to GitHub Pages.
+# Builds the documentation (docs/pages/, docs/assets/, zensical.toml) and publishes it to GitHub Pages.
 # One-time setup on GitHub: Settings > Pages > Source: GitHub Actions.
 name: Documentation
 on:

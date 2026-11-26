@@ -1,0 +1,17 @@
+# Controller manager and controllers. The joint lists are generated from the model, in
+# h3215_description/config/joints.yaml: robot.launch.py loads both files.
+controller_manager:
+  ros__parameters:
+    # The servos run their own position loop; the policy will run at 50 Hz on top of this
+    update_rate: 100
+
+    # Real time, with the system set up by scripts/setup_pi.sh: the loop runs on the isolated
+    # core with SCHED_FIFO, its memory locked so it never waits for a page fault
+    lock_memory: true
+    thread_priority: 90
+    cpu_affinity: [3]
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    leg_position_controller:
+      type: position_controllers/JointGroupPositionController

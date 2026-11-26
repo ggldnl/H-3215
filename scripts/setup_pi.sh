@@ -10,13 +10,14 @@
 #   2. Kernel command line (after a reboot): isolcpus keeps ordinary processes off the
 #      loop's core, irqaffinity keeps hardware interrupts off it.
 #      The original file is saved next to it as cmdline.txt.orig.
-#   3. Real-time priority limit for your user (at next login), so the control loop can
-#      use SCHED_FIFO without sudo, inside the conda environment.
+#   3. Real-time limits for your user (at next login): SCHED_FIFO up to priority 90 and
+#      unlimited locked memory, so ros2_control's loop runs in real time without sudo.
 #   4. dialout group for your user (at next login), to open the servo adapter's port.
-# How to undo each step: see README.md.
+# Written for Ubuntu 24.04 on the Pi; ROS 2 itself is installed by setup_ros.sh.
+# How to undo each step: see docs/pages/software/raspberry-pi.md.
 set -euo pipefail
 
-LOOP_CORE=3       # reserved for the control loop (tests/bench_loop.py uses the last core)
+LOOP_CORE=3       # reserved for the control loop (h3215_bringup's controllers.yaml)
 OTHER_CORES=0-2   # everything else: OS, ROS 2, perception
 RT_PRIORITY=90    # highest SCHED_FIFO priority your user may request
 
@@ -27,7 +28,7 @@ RT_LIMITS=/etc/security/limits.d/hexapod-rt.conf
 
 apply_governor() {
     echo performance | tee /sys/devices/system/cpu/cpufreq/policy*/scaling_governor > /dev/null
-    # Raspberry Pi OS sets its own governor at boot: this service runs after it.
+    # Some images set their own governor at boot: this service runs after it.
     cat > /etc/systemd/system/cpu-performance.service <<'EOF'
 [Unit]
 Description=CPU governor: performance (hexapod control loop)
@@ -55,7 +56,7 @@ apply_cmdline() {
 }
 
 apply_rt_limit() {
-    echo "$SUDO_USER - rtprio $RT_PRIORITY" > "$RT_LIMITS"
+    printf '%s - rtprio %s\n%s - memlock unlimited\n' "$SUDO_USER" "$RT_PRIORITY" "$SUDO_USER" > "$RT_LIMITS"
 }
 
 apply_serial_access() {
@@ -67,8 +68,9 @@ check() {
     echo "governor:       $(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor 2> /dev/null)"
     echo "isolated cores: $(cat /sys/devices/system/cpu/isolated)   (empty until you reboot)"
     echo "boot cmdline:   $(grep -oE '(isolcpus|irqaffinity)=[^ ]*' "$CMDLINE" | tr '\n' ' ')"
-    echo "rt limit file:  $(cat "$RT_LIMITS" 2> /dev/null || echo missing)"
+    echo "rt limit file:  $(tr '\n' ';' < "$RT_LIMITS" 2> /dev/null || echo missing)"
     echo "your rtprio:    $(ulimit -r)   (needs a new login; under sudo it shows root's)"
+    echo "your memlock:   $(ulimit -l)"
     echo "groups:         $(id -nG "${SUDO_USER:-$USER}")"
     if command -v vcgencmd > /dev/null; then
         echo "temperature:    $(vcgencmd measure_temp)"
@@ -90,7 +92,7 @@ grep -q "Raspberry Pi 5" /proc/device-tree/model 2> /dev/null ||
 
 echo "1/4 CPU governor -> performance";                          apply_governor
 echo "2/4 Kernel: isolcpus=$LOOP_CORE irqaffinity=$OTHER_CORES"; apply_cmdline
-echo "3/4 Real-time priority up to $RT_PRIORITY for $SUDO_USER";  apply_rt_limit
+echo "3/4 Real-time limits for $SUDO_USER";                      apply_rt_limit
 echo "4/4 Serial port access for $SUDO_USER";                    apply_serial_access
 echo
 check

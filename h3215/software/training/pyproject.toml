@@ -1,0 +1,37 @@
+# h3215_train: everything that needs MuJoCo, on a PC: the model tools (the robot's structure
+# read from its MJCF, the URDF generated from it) and the mjlab training tasks.
+#   uv sync --project h3215/software/training     installs it, with mjlab and PyTorch
+# The Pi never installs it: what runs there is the ROS packages in control/ and core/.
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "h3215-train"
+version = "0.1.0"
+description = "H-3215 in MuJoCo: model tools, mjlab velocity-tracking tasks and PPO settings"
+requires-python = ">=3.10,<3.14"
+dependencies = ["mujoco", "numpy", "mjlab>=1.6.0"]
+
+# mjlab's train and play commands import every package registered here and run its task
+# registrations
+[project.entry-points."mjlab.tasks"]
+h3215_train = "h3215_train.tasks"
+
+[tool.uv]
+# mjlab 1.6 accepts any mjviser from 0.0.14, but 0.0.17 needs mujoco-core 4, which installs over
+# the mujoco 3.11 that mjlab itself needs: the last mjviser that uses mujoco is 0.0.16
+constraint-dependencies = ["mjviser<0.0.17"]
+
+[dependency-groups]
+dev = ["ruff>=0.14.14"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B"]

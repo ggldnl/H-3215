@@ -1,1 +1,0 @@
-"""Hexapod robot code."""

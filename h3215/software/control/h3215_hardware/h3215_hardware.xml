@@ -1,0 +1,7 @@
+<library path="h3215_hardware">
+  <class name="h3215_hardware/StsSystem"
+         type="h3215_hardware::StsSystem"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>A bus of Feetech STS servos, one per joint, position controlled</description>
+  </class>
+</library>

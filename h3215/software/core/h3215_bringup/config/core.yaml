@@ -1,0 +1,17 @@
+# Parameters of the high-level nodes (h3215_core). The posture node's joints and home pose come
+# from the model, in h3215_description/config/joints.yaml.
+posture:
+  ros__parameters:
+    duration: 3.0         # s, move from the present pose to the home pose
+    rate: 50.0            # Hz, commands during the move
+    hardware: h3215       # the ros2_control hardware component
+    stand_on_start: false # true: stand up as soon as the robot starts
+
+monitor:
+  ros__parameters:
+    cells: 3              # 3S Li-ion pack
+    cell_warn: 3.4        # V per cell: low
+    cell_error: 3.2       # V per cell: empty, stop and charge
+    temperature_warn: 60.0
+    temperature_error: 70.0
+    period: 1.0           # s between reports

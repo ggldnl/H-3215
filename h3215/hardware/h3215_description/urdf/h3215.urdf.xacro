@@ -1,0 +1,766 @@
+<?xml version="1.0"?>
+<!-- Generated from h3215/hardware/h3215_description/mjcf/h3215.xml by `python -m h3215_train.description`: regenerate, don't edit -->
+<robot name="h3215" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="use_mock_hardware" default="false"/>
+  <xacro:arg name="port" default="/dev/ttyACM0"/>
+  <xacro:arg name="calibration_file" default="$(find h3215_description)/config/calibration.yaml"/>
+  <xacro:property name="calibration" value="${xacro.load_yaml('$(arg calibration_file)')['joints']}"/>
+
+  <!-- A servo's calibration: offset and direction from calibration_file, or 0 and 1 -->
+  <xacro:macro name="calibration_params" params="joint">
+    <xacro:property name="c" value="${calibration[joint] if joint in calibration else dict()}"/>
+    <param name="offset">${c['offset'] if 'offset' in c else 0.0}</param>
+    <param name="direction">${c['direction'] if 'direction' in c else 1}</param>
+  </xacro:macro>
+
+  <link name="base_link"/>
+  <joint name="base_fixed" type="fixed">
+    <parent link="base_link"/><child link="base"/>
+  </joint>
+
+  <link name="base">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1.03"/>
+      <inertia ixx="0.00175958" ixy="0" ixz="0" iyy="0.00374233" iyz="0" izz="0.00488392"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.2 0.13 0.06"/></geometry>
+      <material name=""><color rgba="0.75 0.75 0.78 1"/></material>
+    </visual>
+  </link>
+
+  <link name="leg_1_link_1">
+    <inertial>
+      <origin xyz="0.045 0 -0.011" rpy="0 0 0"/>
+      <mass value="0.075"/>
+      <inertia ixx="1.57562e-05" ixy="0" ixz="0" iyy="2.3725e-05" iyz="0" izz="2.32813e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.045 0 -0.011" rpy="0 0 0"/>
+      <geometry><box size="0.05 0.035 0.036"/></geometry>
+      <material name=""><color rgba="0.2 0.2 0.22 1"/></material>
+    </visual>
+  </link>
+  <joint name="leg_1_joint_1" type="revolute">
+    <parent link="base"/><child link="leg_1_link_1"/>
+    <origin xyz="0.082 -0.057 0" rpy="0 0 -0.7854"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-0.785" upper="0.785" effort="2.94" velocity="4.7"/>
+  </joint>
+
+  <link name="leg_1_link_2">
+    <inertial>
+      <origin xyz="0.0385 0 0" rpy="0 -1.5708 0"/>
+      <mass value="0.075"/>
+      <inertia ixx="5.72565e-05" ixy="0" ixz="0" iyy="5.72565e-05" iyz="0" izz="5.21419e-06"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0385 0 0" rpy="0 -1.5708 0"/>
+      <geometry><cylinder radius="0.012" length="0.077"/></geometry>
+      <material name=""><color rgba="0.2 0.2 0.22 1"/></material>
+    </visual>
+  </link>
+  <joint name="leg_1_joint_2" type="revolute">
+    <parent link="leg_1_link_1"/><child link="leg_1_link_2"/>
+    <origin xyz="0.068 0 -0.022" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-1.571" upper="1.571" effort="2.94" velocity="4.7"/>
+  </joint>
+
+  <link name="leg_1_link_3">
+    <inertial>
+      <origin xyz="0 0 -0.061" rpy="0 0 0"/>
+      <mass value="0.035"/>
+      <inertia ixx="4.93966e-05" ixy="0" ixz="0" iyy="4.93966e-05" iyz="0" izz="1.14229e-06"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.0525" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.008" length="0.105"/></geometry>
+      <material name=""><color rgba="0.2 0.2 0.22 1"/></material>
+    </visual>
+    <visual>
+      <origin xyz="0 0 -0.112" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name=""><color rgba="0.9 0.45 0.1 1"/></material>
+    </visual>
+  </link>
+  <joint name="leg_1_joint_3" type="revolute">
+    <parent link="leg_1_link_2"/><child link="leg_1_link_3"/>
+    <origin xyz="0.077 0 0" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-1.571" upper="1.571" effort="2.94" velocity="4.7"/>
+  </joint>
+
+  <link name="leg_2_link_1">
+    <inertial>
+      <origin xyz="0.045 0 -0.011" rpy="0 0 0"/>
+      <mass value="0.075"/>
+      <inertia ixx="1.57562e-05" ixy="0" ixz="0" iyy="2.3725e-05" iyz="0" izz="2.32813e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.045 0 -0.011" rpy="0 0 0"/>
+      <geometry><box size="0.05 0.035 0.036"/></geometry>
+      <material name=""><color rgba="0.2 0.2 0.22 1"/></material>
+    </visual>
+  </link>
+  <joint name="leg_2_joint_1" type="revolute">
+    <parent link="base"/><child link="leg_2_link_1"/>
+    <origin xyz="0 -0.071 0" rpy="0 0 -1.5708"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-0.785" upper="0.785" effort="2.94" velocity="4.7"/>
+  </joint>
+
+  <link name="leg_2_link_2">
+    <inertial>
+      <origin xyz="0.0385 0 0" rpy="0 -1.5708 0"/>
+      <mass value="0.075"/>
+      <inertia ixx="5.72565e-05" ixy="0" ixz="0" iyy="5.72565e-05" iyz="0" izz="5.21419e-06"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0385 0 0" rpy="0 -1.5708 0"/>
+      <geometry><cylinder radius="0.012" length="0.077"/></geometry>
+      <material name=""><color rgba="0.2 0.2 0.22 1"/></material>
+    </visual>
+  </link>
+  <joint name="leg_2_joint_2" type="revolute">
+    <parent link="leg_2_link_1"/><child link="leg_2_link_2"/>
+    <origin xyz="0.068 0 -0.022" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-1.571" upper="1.571" effort="2.94" velocity="4.7"/>
+  </joint>
+
+  <link name="leg_2_link_3">
+    <inertial>
+      <origin xyz="0 0 -0.061" rpy="0 0 0"/>
+      <mass value="0.035"/>
+      <inertia ixx="4.93966e-05" ixy="0" ixz="0" iyy="4.93966e-05" iyz="0" izz="1.14229e-06"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.0525" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.008" length="0.105"/></geometry>
+      <material name=""><color rgba="0.2 0.2 0.22 1"/></material>
+    </visual>
+    <visual>
+      <origin xyz="0 0 -0.112" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name=""><color rgba="0.9 0.45 0.1 1"/></material>
+    </visual>
+  </link>
+  <joint name="leg_2_joint_3" type="revolute">
+    <parent link="leg_2_link_2"/><child link="leg_2_link_3"/>
+    <origin xyz="0.077 0 0" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-1.571" upper="1.571" effort="2.94" velocity="4.7"/>
+  </joint>
+
+  <link name="leg_3_link_1">
+    <inertial>
+      <origin xyz="0.045 0 -0.011" rpy="0 0 0"/>
+      <mass value="0.075"/>
+      <inertia ixx="1.57562e-05" ixy="0" ixz="0" iyy="2.3725e-05" iyz="0" izz="2.32813e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.045 0 -0.011" rpy="0 0 0"/>
+      <geometry><box size="0.05 0.035 0.036"/></geometry>
+      <material name=""><color rgba="0.2 0.2 0.22 1"/></material>
+    </visual>
+  </link>
+  <joint name="leg_3_joint_1" type="revolute">
+    <parent link="base"/><child link="leg_3_link_1"/>
+    <origin xyz="-0.082 -0.057 0" rpy="0 0 -2.3562"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-0.785" upper="0.785" effort="2.94" velocity="4.7"/>
+  </joint>
+
+  <link name="leg_3_link_2">
+    <inertial>
+      <origin xyz="0.0385 0 0" rpy="0 -1.5708 0"/>
+      <mass value="0.075"/>
+      <inertia ixx="5.72565e-05" ixy="0" ixz="0" iyy="5.72565e-05" iyz="0" izz="5.21419e-06"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0385 0 0" rpy="0 -1.5708 0"/>
+      <geometry><cylinder radius="0.012" length="0.077"/></geometry>
+      <material name=""><color rgba="0.2 0.2 0.22 1"/></material>
+    </visual>
+  </link>
+  <joint name="leg_3_joint_2" type="revolute">
+    <parent link="leg_3_link_1"/><child link="leg_3_link_2"/>
+    <origin xyz="0.068 0 -0.022" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-1.571" upper="1.571" effort="2.94" velocity="4.7"/>
+  </joint>
+
+  <link name="leg_3_link_3">
+    <inertial>
+      <origin xyz="0 0 -0.061" rpy="0 0 0"/>
+      <mass value="0.035"/>
+      <inertia ixx="4.93966e-05" ixy="0" ixz="0" iyy="4.93966e-05" iyz="0" izz="1.14229e-06"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.0525" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.008" length="0.105"/></geometry>
+      <material name=""><color rgba="0.2 0.2 0.22 1"/></material>
+    </visual>
+    <visual>
+      <origin xyz="0 0 -0.112" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name=""><color rgba="0.9 0.45 0.1 1"/></material>
+    </visual>
+  </link>
+  <joint name="leg_3_joint_3" type="revolute">
+    <parent link="leg_3_link_2"/><child link="leg_3_link_3"/>
+    <origin xyz="0.077 0 0" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-1.571" upper="1.571" effort="2.94" velocity="4.7"/>
+  </joint>
+
+  <link name="leg_4_link_1">
+    <inertial>
+      <origin xyz="0.045 0 -0.011" rpy="0 0 0"/>
+      <mass value="0.075"/>
+      <inertia ixx="1.57562e-05" ixy="0" ixz="0" iyy="2.3725e-05" iyz="0" izz="2.32813e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.045 0 -0.011" rpy="0 0 0"/>
+      <geometry><box size="0.05 0.035 0.036"/></geometry>
+      <material name=""><color rgba="0.2 0.2 0.22 1"/></material>
+    </visual>
+  </link>
+  <joint name="leg_4_joint_1" type="revolute">
+    <parent link="base"/><child link="leg_4_link_1"/>
+    <origin xyz="-0.082 0.057 0" rpy="0 0 2.3562"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-0.785" upper="0.785" effort="2.94" velocity="4.7"/>
+  </joint>
+
+  <link name="leg_4_link_2">
+    <inertial>
+      <origin xyz="0.0385 0 0" rpy="0 -1.5708 0"/>
+      <mass value="0.075"/>
+      <inertia ixx="5.72565e-05" ixy="0" ixz="0" iyy="5.72565e-05" iyz="0" izz="5.21419e-06"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0385 0 0" rpy="0 -1.5708 0"/>
+      <geometry><cylinder radius="0.012" length="0.077"/></geometry>
+      <material name=""><color rgba="0.2 0.2 0.22 1"/></material>
+    </visual>
+  </link>
+  <joint name="leg_4_joint_2" type="revolute">
+    <parent link="leg_4_link_1"/><child link="leg_4_link_2"/>
+    <origin xyz="0.068 0 -0.022" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-1.571" upper="1.571" effort="2.94" velocity="4.7"/>
+  </joint>
+
+  <link name="leg_4_link_3">
+    <inertial>
+      <origin xyz="0 0 -0.061" rpy="0 0 0"/>
+      <mass value="0.035"/>
+      <inertia ixx="4.93966e-05" ixy="0" ixz="0" iyy="4.93966e-05" iyz="0" izz="1.14229e-06"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.0525" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.008" length="0.105"/></geometry>
+      <material name=""><color rgba="0.2 0.2 0.22 1"/></material>
+    </visual>
+    <visual>
+      <origin xyz="0 0 -0.112" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name=""><color rgba="0.9 0.45 0.1 1"/></material>
+    </visual>
+  </link>
+  <joint name="leg_4_joint_3" type="revolute">
+    <parent link="leg_4_link_2"/><child link="leg_4_link_3"/>
+    <origin xyz="0.077 0 0" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-1.571" upper="1.571" effort="2.94" velocity="4.7"/>
+  </joint>
+
+  <link name="leg_5_link_1">
+    <inertial>
+      <origin xyz="0.045 0 -0.011" rpy="0 0 0"/>
+      <mass value="0.075"/>
+      <inertia ixx="1.57562e-05" ixy="0" ixz="0" iyy="2.3725e-05" iyz="0" izz="2.32813e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.045 0 -0.011" rpy="0 0 0"/>
+      <geometry><box size="0.05 0.035 0.036"/></geometry>
+      <material name=""><color rgba="0.2 0.2 0.22 1"/></material>
+    </visual>
+  </link>
+  <joint name="leg_5_joint_1" type="revolute">
+    <parent link="base"/><child link="leg_5_link_1"/>
+    <origin xyz="0 0.071 0" rpy="0 0 1.5708"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-0.785" upper="0.785" effort="2.94" velocity="4.7"/>
+  </joint>
+
+  <link name="leg_5_link_2">
+    <inertial>
+      <origin xyz="0.0385 0 0" rpy="0 -1.5708 0"/>
+      <mass value="0.075"/>
+      <inertia ixx="5.72565e-05" ixy="0" ixz="0" iyy="5.72565e-05" iyz="0" izz="5.21419e-06"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0385 0 0" rpy="0 -1.5708 0"/>
+      <geometry><cylinder radius="0.012" length="0.077"/></geometry>
+      <material name=""><color rgba="0.2 0.2 0.22 1"/></material>
+    </visual>
+  </link>
+  <joint name="leg_5_joint_2" type="revolute">
+    <parent link="leg_5_link_1"/><child link="leg_5_link_2"/>
+    <origin xyz="0.068 0 -0.022" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-1.571" upper="1.571" effort="2.94" velocity="4.7"/>
+  </joint>
+
+  <link name="leg_5_link_3">
+    <inertial>
+      <origin xyz="0 0 -0.061" rpy="0 0 0"/>
+      <mass value="0.035"/>
+      <inertia ixx="4.93966e-05" ixy="0" ixz="0" iyy="4.93966e-05" iyz="0" izz="1.14229e-06"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.0525" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.008" length="0.105"/></geometry>
+      <material name=""><color rgba="0.2 0.2 0.22 1"/></material>
+    </visual>
+    <visual>
+      <origin xyz="0 0 -0.112" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name=""><color rgba="0.9 0.45 0.1 1"/></material>
+    </visual>
+  </link>
+  <joint name="leg_5_joint_3" type="revolute">
+    <parent link="leg_5_link_2"/><child link="leg_5_link_3"/>
+    <origin xyz="0.077 0 0" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-1.571" upper="1.571" effort="2.94" velocity="4.7"/>
+  </joint>
+
+  <link name="leg_6_link_1">
+    <inertial>
+      <origin xyz="0.045 0 -0.011" rpy="0 0 0"/>
+      <mass value="0.075"/>
+      <inertia ixx="1.57562e-05" ixy="0" ixz="0" iyy="2.3725e-05" iyz="0" izz="2.32813e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.045 0 -0.011" rpy="0 0 0"/>
+      <geometry><box size="0.05 0.035 0.036"/></geometry>
+      <material name=""><color rgba="0.2 0.2 0.22 1"/></material>
+    </visual>
+  </link>
+  <joint name="leg_6_joint_1" type="revolute">
+    <parent link="base"/><child link="leg_6_link_1"/>
+    <origin xyz="0.082 0.057 0" rpy="0 0 0.7854"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-0.785" upper="0.785" effort="2.94" velocity="4.7"/>
+  </joint>
+
+  <link name="leg_6_link_2">
+    <inertial>
+      <origin xyz="0.0385 0 0" rpy="0 -1.5708 0"/>
+      <mass value="0.075"/>
+      <inertia ixx="5.72565e-05" ixy="0" ixz="0" iyy="5.72565e-05" iyz="0" izz="5.21419e-06"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.0385 0 0" rpy="0 -1.5708 0"/>
+      <geometry><cylinder radius="0.012" length="0.077"/></geometry>
+      <material name=""><color rgba="0.2 0.2 0.22 1"/></material>
+    </visual>
+  </link>
+  <joint name="leg_6_joint_2" type="revolute">
+    <parent link="leg_6_link_1"/><child link="leg_6_link_2"/>
+    <origin xyz="0.068 0 -0.022" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-1.571" upper="1.571" effort="2.94" velocity="4.7"/>
+  </joint>
+
+  <link name="leg_6_link_3">
+    <inertial>
+      <origin xyz="0 0 -0.061" rpy="0 0 0"/>
+      <mass value="0.035"/>
+      <inertia ixx="4.93966e-05" ixy="0" ixz="0" iyy="4.93966e-05" iyz="0" izz="1.14229e-06"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.0525" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.008" length="0.105"/></geometry>
+      <material name=""><color rgba="0.2 0.2 0.22 1"/></material>
+    </visual>
+    <visual>
+      <origin xyz="0 0 -0.112" rpy="0 0 0"/>
+      <geometry><sphere radius="0.01"/></geometry>
+      <material name=""><color rgba="0.9 0.45 0.1 1"/></material>
+    </visual>
+  </link>
+  <joint name="leg_6_joint_3" type="revolute">
+    <parent link="leg_6_link_2"/><child link="leg_6_link_3"/>
+    <origin xyz="0.077 0 0" rpy="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-1.571" upper="1.571" effort="2.94" velocity="4.7"/>
+  </joint>
+
+  <link name="imu"/>
+  <joint name="imu_fixed" type="fixed">
+    <parent link="base"/><child link="imu"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="camera_link"/>
+  <joint name="camera_link_fixed" type="fixed">
+    <parent link="base"/><child link="camera_link"/>
+    <origin xyz="0.1 0 0.03" rpy="0 0 0"/>
+  </joint>
+  <link name="leg_1_foot"/>
+  <joint name="leg_1_foot_fixed" type="fixed">
+    <parent link="leg_1_link_3"/><child link="leg_1_foot"/>
+    <origin xyz="0 0 -0.112" rpy="0 0 0"/>
+  </joint>
+  <link name="leg_2_foot"/>
+  <joint name="leg_2_foot_fixed" type="fixed">
+    <parent link="leg_2_link_3"/><child link="leg_2_foot"/>
+    <origin xyz="0 0 -0.112" rpy="0 0 0"/>
+  </joint>
+  <link name="leg_3_foot"/>
+  <joint name="leg_3_foot_fixed" type="fixed">
+    <parent link="leg_3_link_3"/><child link="leg_3_foot"/>
+    <origin xyz="0 0 -0.112" rpy="0 0 0"/>
+  </joint>
+  <link name="leg_4_foot"/>
+  <joint name="leg_4_foot_fixed" type="fixed">
+    <parent link="leg_4_link_3"/><child link="leg_4_foot"/>
+    <origin xyz="0 0 -0.112" rpy="0 0 0"/>
+  </joint>
+  <link name="leg_5_foot"/>
+  <joint name="leg_5_foot_fixed" type="fixed">
+    <parent link="leg_5_link_3"/><child link="leg_5_foot"/>
+    <origin xyz="0 0 -0.112" rpy="0 0 0"/>
+  </joint>
+  <link name="leg_6_foot"/>
+  <joint name="leg_6_foot_fixed" type="fixed">
+    <parent link="leg_6_link_3"/><child link="leg_6_foot"/>
+    <origin xyz="0 0 -0.112" rpy="0 0 0"/>
+  </joint>
+
+  <ros2_control name="h3215" type="system">
+    <hardware>
+      <xacro:if value="$(arg use_mock_hardware)">
+        <plugin>mock_components/GenericSystem</plugin>
+      </xacro:if>
+      <xacro:unless value="$(arg use_mock_hardware)">
+        <plugin>h3215_hardware/StsSystem</plugin>
+        <param name="port">$(arg port)</param>
+        <param name="baudrate">1000000</param>
+        <param name="stall_torque">2.94</param>
+      </xacro:unless>
+    </hardware>
+    <joint name="leg_1_joint_1">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <state_interface name="voltage">
+        <param name="initial_value">11.4</param>
+      </state_interface>
+      <state_interface name="temperature">
+        <param name="initial_value">30.0</param>
+      </state_interface>
+      <state_interface name="status"/>
+      <param name="id">1</param>
+      <xacro:calibration_params joint="leg_1_joint_1"/>
+    </joint>
+    <joint name="leg_1_joint_2">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.35</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <state_interface name="voltage">
+        <param name="initial_value">11.4</param>
+      </state_interface>
+      <state_interface name="temperature">
+        <param name="initial_value">30.0</param>
+      </state_interface>
+      <state_interface name="status"/>
+      <param name="id">2</param>
+      <xacro:calibration_params joint="leg_1_joint_2"/>
+    </joint>
+    <joint name="leg_1_joint_3">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">-0.25</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <state_interface name="voltage">
+        <param name="initial_value">11.4</param>
+      </state_interface>
+      <state_interface name="temperature">
+        <param name="initial_value">30.0</param>
+      </state_interface>
+      <state_interface name="status"/>
+      <param name="id">3</param>
+      <xacro:calibration_params joint="leg_1_joint_3"/>
+    </joint>
+    <joint name="leg_2_joint_1">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <state_interface name="voltage">
+        <param name="initial_value">11.4</param>
+      </state_interface>
+      <state_interface name="temperature">
+        <param name="initial_value">30.0</param>
+      </state_interface>
+      <state_interface name="status"/>
+      <param name="id">4</param>
+      <xacro:calibration_params joint="leg_2_joint_1"/>
+    </joint>
+    <joint name="leg_2_joint_2">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.35</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <state_interface name="voltage">
+        <param name="initial_value">11.4</param>
+      </state_interface>
+      <state_interface name="temperature">
+        <param name="initial_value">30.0</param>
+      </state_interface>
+      <state_interface name="status"/>
+      <param name="id">5</param>
+      <xacro:calibration_params joint="leg_2_joint_2"/>
+    </joint>
+    <joint name="leg_2_joint_3">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">-0.25</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <state_interface name="voltage">
+        <param name="initial_value">11.4</param>
+      </state_interface>
+      <state_interface name="temperature">
+        <param name="initial_value">30.0</param>
+      </state_interface>
+      <state_interface name="status"/>
+      <param name="id">6</param>
+      <xacro:calibration_params joint="leg_2_joint_3"/>
+    </joint>
+    <joint name="leg_3_joint_1">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <state_interface name="voltage">
+        <param name="initial_value">11.4</param>
+      </state_interface>
+      <state_interface name="temperature">
+        <param name="initial_value">30.0</param>
+      </state_interface>
+      <state_interface name="status"/>
+      <param name="id">7</param>
+      <xacro:calibration_params joint="leg_3_joint_1"/>
+    </joint>
+    <joint name="leg_3_joint_2">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.35</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <state_interface name="voltage">
+        <param name="initial_value">11.4</param>
+      </state_interface>
+      <state_interface name="temperature">
+        <param name="initial_value">30.0</param>
+      </state_interface>
+      <state_interface name="status"/>
+      <param name="id">8</param>
+      <xacro:calibration_params joint="leg_3_joint_2"/>
+    </joint>
+    <joint name="leg_3_joint_3">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">-0.25</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <state_interface name="voltage">
+        <param name="initial_value">11.4</param>
+      </state_interface>
+      <state_interface name="temperature">
+        <param name="initial_value">30.0</param>
+      </state_interface>
+      <state_interface name="status"/>
+      <param name="id">9</param>
+      <xacro:calibration_params joint="leg_3_joint_3"/>
+    </joint>
+    <joint name="leg_4_joint_1">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <state_interface name="voltage">
+        <param name="initial_value">11.4</param>
+      </state_interface>
+      <state_interface name="temperature">
+        <param name="initial_value">30.0</param>
+      </state_interface>
+      <state_interface name="status"/>
+      <param name="id">10</param>
+      <xacro:calibration_params joint="leg_4_joint_1"/>
+    </joint>
+    <joint name="leg_4_joint_2">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.35</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <state_interface name="voltage">
+        <param name="initial_value">11.4</param>
+      </state_interface>
+      <state_interface name="temperature">
+        <param name="initial_value">30.0</param>
+      </state_interface>
+      <state_interface name="status"/>
+      <param name="id">11</param>
+      <xacro:calibration_params joint="leg_4_joint_2"/>
+    </joint>
+    <joint name="leg_4_joint_3">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">-0.25</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <state_interface name="voltage">
+        <param name="initial_value">11.4</param>
+      </state_interface>
+      <state_interface name="temperature">
+        <param name="initial_value">30.0</param>
+      </state_interface>
+      <state_interface name="status"/>
+      <param name="id">12</param>
+      <xacro:calibration_params joint="leg_4_joint_3"/>
+    </joint>
+    <joint name="leg_5_joint_1">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <state_interface name="voltage">
+        <param name="initial_value">11.4</param>
+      </state_interface>
+      <state_interface name="temperature">
+        <param name="initial_value">30.0</param>
+      </state_interface>
+      <state_interface name="status"/>
+      <param name="id">13</param>
+      <xacro:calibration_params joint="leg_5_joint_1"/>
+    </joint>
+    <joint name="leg_5_joint_2">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.35</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <state_interface name="voltage">
+        <param name="initial_value">11.4</param>
+      </state_interface>
+      <state_interface name="temperature">
+        <param name="initial_value">30.0</param>
+      </state_interface>
+      <state_interface name="status"/>
+      <param name="id">14</param>
+      <xacro:calibration_params joint="leg_5_joint_2"/>
+    </joint>
+    <joint name="leg_5_joint_3">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">-0.25</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <state_interface name="voltage">
+        <param name="initial_value">11.4</param>
+      </state_interface>
+      <state_interface name="temperature">
+        <param name="initial_value">30.0</param>
+      </state_interface>
+      <state_interface name="status"/>
+      <param name="id">15</param>
+      <xacro:calibration_params joint="leg_5_joint_3"/>
+    </joint>
+    <joint name="leg_6_joint_1">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <state_interface name="voltage">
+        <param name="initial_value">11.4</param>
+      </state_interface>
+      <state_interface name="temperature">
+        <param name="initial_value">30.0</param>
+      </state_interface>
+      <state_interface name="status"/>
+      <param name="id">16</param>
+      <xacro:calibration_params joint="leg_6_joint_1"/>
+    </joint>
+    <joint name="leg_6_joint_2">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.35</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <state_interface name="voltage">
+        <param name="initial_value">11.4</param>
+      </state_interface>
+      <state_interface name="temperature">
+        <param name="initial_value">30.0</param>
+      </state_interface>
+      <state_interface name="status"/>
+      <param name="id">17</param>
+      <xacro:calibration_params joint="leg_6_joint_2"/>
+    </joint>
+    <joint name="leg_6_joint_3">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">-0.25</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+      <state_interface name="voltage">
+        <param name="initial_value">11.4</param>
+      </state_interface>
+      <state_interface name="temperature">
+        <param name="initial_value">30.0</param>
+      </state_interface>
+      <state_interface name="status"/>
+      <param name="id">18</param>
+      <xacro:calibration_params joint="leg_6_joint_3"/>
+    </joint>
+  </ros2_control>
+</robot>

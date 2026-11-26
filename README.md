@@ -3,35 +3,88 @@
 A hexapod robot with 18 Feetech STS3215 smart servos and an RL locomotion policy, running on a Raspberry Pi 5.
 It is named after its servos, like its predecessor [H-0996](https://github.com/ggldnl/H-0996) (MG996R servos).
 
-The servos are the biggest change between the two robots. H-0996's MG996R can only be sent a target angle and never report back, while the STS3215 are stronger and report their position and load, so H-3215 can sense when a foot touches down, adapt to uneven ground and run a learned gait that reacts to its own joint state.
+The documentation is in [`docs/`](docs/pages/index.md).
 
-H-0996 is split into eight repositories linked by submodules. That kept it modular, but every firmware or hardware change meant updating the pinned commit in each repository that included it. H-3215 keeps the modularity in folders instead: one commit can change a printed part, the robot model and the training code together, so they can't drift apart, and `hexapod/train/` is a self-contained mjlab project that the robot code never imports.
+## Raspberry Pi
 
-## Layout
-
-| Path | Contents |
-|---|---|
-| `hardware/` | Printed parts (`printed/`), bought parts (`components/`) and the robot model for simulation (`model/h3215.xml`) |
-| `hexapod/` | The software: the robot package (`src/hexapod/`, so far the servo driver) and the mjlab training project (`train/`) |
-| `docs/` | The documentation, with its images and videos in `docs/media/` |
-| `scripts/` | Setup you run once: Pi configuration, Python environment, servo IDs |
-| `tests/` | Checks and benchmarks: `test_sts.py` (no hardware), `servo_check.py`, `bench_loop.py` |
-
-## Documentation
-
-Setup guides, the parts list and design notes live in [`docs/`](docs/index.md):
-
-- [Hardware](docs/hardware/index.md): parts chosen so far, the open ones, the robot model
-- [Power budget and battery](docs/hardware/power.md): consumption, battery sizing, overcurrent protection
-- [Raspberry Pi setup](docs/software/raspberry-pi.md): system configuration and Python environment
-- [Servos](docs/software/servos.md): IDs, reply delay, bus timing
-- [Training in simulation](docs/software/training.md): mjlab tasks, servo model, first results
-- [Tests and benchmarks](docs/software/tests.md)
-
-It builds into a website with [Zensical](https://zensical.org). To preview it while editing, from the repository folder:
+Ubuntu 24.04 on the Pi, then, from the repository folder:
 
 ```bash
-uvx zensical@0.1.1 serve
+sudo bash scripts/setup_pi.sh       # real-time settings, serial port access
+sudo reboot
+bash scripts/setup_ros.sh           # ROS 2 Jazzy, then builds ~/h3215_ws
+source ~/h3215_ws/install/setup.bash
 ```
 
-Then open http://localhost:8000. On GitHub, `.github/workflows/docs.yml` publishes it to GitHub Pages on every push to `main`.
+After pulling changes, rebuild with `bash scripts/setup_ros.sh --build`.
+
+### Servos
+
+New servos all have ID 1. Connect one at a time and give each its ID (1 to 18, leg by leg):
+
+```bash
+ros2 run h3215_hardware servo_tool set-id 1 <id>
+```
+
+With all of them connected:
+
+```bash
+ros2 run h3215_hardware servo_tool fast-reply      # removes the reply delay
+ros2 run h3215_hardware servo_tool check           # status and bus timing
+ros2 run h3215_hardware servo_tool check --move    # slow sine on every servo
+```
+
+### Running the robot
+
+```bash
+ros2 launch h3215_bringup robot.launch.py           # control loop, camera, posture, monitor
+ros2 service call /posture/stand std_srvs/srv/Trigger
+ros2 service call /posture/relax std_srvs/srv/Trigger
+ros2 topic echo /battery
+ros2 topic echo /diagnostics
+```
+
+Launch arguments: `port:=/dev/ttyACM0`, `camera:=false`, `use_mock_hardware:=true`. `control.launch.py` and `camera.launch.py` start the two parts alone.
+
+## PC
+
+### Training
+
+Needs an NVIDIA GPU and [uv](https://docs.astral.sh/uv/):
+
+```bash
+cd h3215/software/training
+uv sync
+uv run play Mjlab-Velocity-Flat-H3215 --agent zero
+uv run train Mjlab-Velocity-Flat-H3215 --env.scene.num-envs 4096
+uv run play Mjlab-Velocity-Flat-H3215 --checkpoint-file logs/rsl_rl/h3215_velocity/<run>/model_<n>.pt
+```
+
+The rough terrain task is `Mjlab-Velocity-Rough-H3215`.
+
+### After changing the model
+
+The URDF and the joint lists are generated from `h3215/hardware/h3215_description/mjcf/h3215.xml`:
+
+```bash
+uv run --project h3215/software/training python -m h3215_train.description           # regenerate
+uv run --project h3215/software/training python -m h3215_train.description --check   # is it up to date?
+uv run --project h3215/software/training python tests/test_morphology.py
+```
+
+### ROS packages, in Docker
+
+```bash
+docker build -t h3215-ros h3215/software/control
+docker run --rm -it --user $(id -u):$(id -g) -v "$PWD:/h3215" h3215-ros
+# inside, in /ws:
+colcon build --symlink-install && colcon test --event-handlers console_direct+
+source install/setup.bash
+ros2 launch h3215_bringup robot.launch.py use_mock_hardware:=true
+```
+
+### Documentation
+
+```bash
+uvx zensical@0.1.1 serve            # http://localhost:8215
+```
